@@ -1,3 +1,3 @@
 # OSFTFun
 
-## Down the Orthognal Rabbit Hole
+## Down the Orthoginal Rabbit Hole
