@@ -396,22 +396,14 @@ function initSVDVisualization() {
 
     function generateAndDecompose() {
         try {
-            // Generate a 3x3 matrix
-            currentMatrix = [
-                [2.0, 0.5, 0.0],
-                [0.0, 1.5, 0.1],
-                [0.0, 0.0, 0.2]
-            ];
+            // Generate synthetic singular values (simulating SVD result)
+            // In a real scenario, these would come from actual SVD of a weight matrix
+            const baseValues = [2.5, 1.2, 0.3];
+            const randomness = baseValues.map(v => v + (Math.random() - 0.5) * 0.3);
 
-            // Add some randomness
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 3; j++) {
-                    currentMatrix[i][j] += (Math.random() - 0.5) * 0.5;
-                }
-            }
-
-            // Perform SVD
-            svdResult = math.svd(currentMatrix);
+            svdResult = {
+                s: randomness.sort((a, b) => b - a) // Sort descending
+            };
 
             // Display singular values
             displaySingularValues(1);
@@ -424,8 +416,7 @@ function initSVDVisualization() {
     function displaySingularValues(rankCutoff) {
         if (!svdResult || !singularValuesDiv) return;
 
-        // Convert singular values to array if needed
-        const singularValues = Array.isArray(svdResult.s) ? svdResult.s : (svdResult.s.toArray ? svdResult.s.toArray() : [svdResult.s]);
+        const singularValues = svdResult.s;
         let html = '<h4>Singular Values</h4>';
 
         singularValues.forEach((s, i) => {
@@ -448,8 +439,7 @@ function initSVDVisualization() {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Convert singular values to array if needed
-        const singularValues = Array.isArray(svdResult.s) ? svdResult.s : (svdResult.s.toArray ? svdResult.s.toArray() : [svdResult.s]);
+        const singularValues = svdResult.s;
 
         const padding = 50;
         const barWidth = (canvas.width - 2 * padding) / singularValues.length;
