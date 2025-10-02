@@ -57,4 +57,3 @@ So take the plunge. Follow the white rabbit. Let's see how deep this orthogonal 
 
 *"Begin at the beginning, and go on till you come to the end: then stop."*
 — Lewis Carroll (but also good advice for gradient descent)
-
