@@ -704,6 +704,40 @@ footer {
     animation: fadeIn 0.6s ease-out;
 }
 
+/* Rabbit Hole Theme Elements */
+.rabbit-hole-note {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-left: 4px solid var(--primary);
+    padding: 1rem 1.5rem;
+    margin-top: 1.5rem;
+    border-radius: 8px;
+    font-style: italic;
+    color: var(--primary-dark);
+}
+
+.explanation {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.explanation h3 {
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+}
+
+.explanation ul {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.explanation li {
+    margin: 0.75rem 0;
+    line-height: 1.6;
+}
+
 /* Utility Classes */
 .text-center {
     text-align: center;

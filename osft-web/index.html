@@ -112,8 +112,20 @@
             </div>
 
             <div class="explanation">
-                <h3>Why This Matters</h3>
-                <p>By preserving angular relationships, OFT maintains the semantic structure learned during pre-training, leading to more stable and generalizable fine-tuning.</p>
+                <h3>🎩 Why This Matters: The Mad Hatter's Tea Party Problem</h3>
+                <p>Imagine you're at the Mad Hatter's tea party, and everyone's seat represents a learned feature in your model. Traditional fine-tuning is like the Hatter shouting "Move down!" - everyone shifts chaotically, and suddenly the March Hare is sitting where the Dormouse should be. The entire seating arrangement (your model's learned relationships) gets scrambled.</p>
+
+                <p><strong>OFT is different.</strong> It's like rotating the entire table instead of moving individual seats. Everyone maintains their relative positions - if Alice was between the Hatter and the Hare before, she still is after the rotation. The <em>relationships</em> stay intact.</p>
+
+                <p>In technical terms: By preserving angular relationships (hyperspherical energy), OFT maintains the semantic structure learned during pre-training. Features that were similar before fine-tuning remain similar after. Features that were orthogonal (independent) stay orthogonal. This leads to:</p>
+
+                <ul>
+                    <li><strong>More stable training:</strong> No chaotic seat-swapping means gradients behave predictably</li>
+                    <li><strong>Better generalization:</strong> The model's core understanding remains intact</li>
+                    <li><strong>Preserved knowledge:</strong> Like keeping the tea party's social dynamics while just moving to a different garden</li>
+                </ul>
+
+                <p class="rabbit-hole-note">💫 <em>Down here in Wonderland, we don't break what already works - we just rotate it to see it from a new angle.</em></p>
             </div>
         </section>
 
