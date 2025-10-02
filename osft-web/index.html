@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orthogonal Fine-Tuning Interactive Guide</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>🔄 Orthogonal Fine-Tuning</h1>
+            <div class="nav-links">
+                <a href="#intro">Introduction</a>
+                <a href="#oft">OFT Basics</a>
+                <a href="#osft">OSFT</a>
+                <a href="#visualizations">Visualizations</a>
+                <a href="#comparison">Comparison</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section id="intro" class="hero">
+            <h2>Understanding Orthogonal Fine-Tuning</h2>
+            <p class="lead">Master parameter-efficient fine-tuning techniques that preserve learned knowledge while adapting to new tasks.</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">90%+</span>
+                    <span class="stat-label">Parameter Reduction</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">Stable</span>
+                    <span class="stat-label">Training</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">Zero</span>
+                    <span class="stat-label">Forgetting</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- OFT Introduction -->
+        <section id="oft" class="content-section">
+            <h2>What is Orthogonal Fine-Tuning (OFT)?</h2>
+            <div class="two-column">
+                <div>
+                    <p>OFT is a parameter-efficient fine-tuning technique that adapts pre-trained models by applying <strong>orthogonal transformations</strong> to weight matrices.</p>
+
+                    <h3>Key Properties of Orthogonal Matrices</h3>
+                    <ul>
+                        <li><strong>Preserves distances:</strong> ||Qx|| = ||x||</li>
+                        <li><strong>Preserves angles:</strong> Maintains geometric relationships</li>
+                        <li><strong>Identity when transposed:</strong> Q<sup>T</sup>Q = I</li>
+                        <li><strong>Represents rotations:</strong> Pure rotation without scaling</li>
+                    </ul>
+
+                    <div class="formula-box">
+                        <h4>Core Formula</h4>
+                        <code>W' = W × R</code>
+                        <p>Where R is an orthogonal matrix learned during fine-tuning</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="interactive-demo" id="orthogonal-demo">
+                        <canvas id="orthogonalCanvas" width="400" height="400"></canvas>
+                        <div class="controls">
+                            <label>
+                                Rotation Angle: <span id="angleValue">45°</span>
+                                <input type="range" id="rotationAngle" min="0" max="360" value="45">
+                            </label>
+                            <button id="resetRotation">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Orthogonal Matrix Verification -->
+        <section class="content-section">
+            <h2>Interactive Orthogonal Matrix Explorer</h2>
+            <div class="matrix-explorer">
+                <div class="matrix-display">
+                    <h3>Matrix Q</h3>
+                    <div id="matrixQ" class="matrix"></div>
+                </div>
+                <div class="matrix-display">
+                    <h3>Q<sup>T</sup> × Q</h3>
+                    <div id="matrixQTQ" class="matrix"></div>
+                </div>
+                <div class="matrix-display">
+                    <h3>Properties</h3>
+                    <div id="matrixProperties" class="properties"></div>
+                </div>
+            </div>
+            <button id="generateMatrix">Generate New Orthogonal Matrix</button>
+        </section>
+
+        <!-- Hyperspherical Energy -->
+        <section class="content-section bg-light">
+            <h2>Hyperspherical Energy Preservation</h2>
+            <p>A key advantage of OFT: preserving the <strong>hyperspherical energy</strong> of features—the geometric relationships between neuron activations.</p>
+
+            <div class="energy-comparison">
+                <canvas id="energyCanvas" width="800" height="400"></canvas>
+                <div class="energy-stats" id="energyStats"></div>
+            </div>
+
+            <div class="explanation">
+                <h3>Why This Matters</h3>
+                <p>By preserving angular relationships, OFT maintains the semantic structure learned during pre-training, leading to more stable and generalizable fine-tuning.</p>
+            </div>
+        </section>
+
+        <!-- OSFT Introduction -->
+        <section id="osft" class="content-section">
+            <h2>Orthogonal Subspace Fine-Tuning (OSFT)</h2>
+            <div class="osft-intro">
+                <p class="lead">OSFT takes OFT further by identifying and protecting <strong>critical directions</strong> in parameter space using SVD decomposition.</p>
+
+                <div class="problem-solution">
+                    <div class="problem">
+                        <h3>❌ The Problem: Catastrophic Forgetting</h3>
+                        <p>Standard fine-tuning can destroy previously learned knowledge when adapting to new tasks.</p>
+                    </div>
+                    <div class="solution">
+                        <h3>✓ The Solution: Subspace Projection</h3>
+                        <p>OSFT updates weights only in "safe" directions orthogonal to critical learned features.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SVD Visualization -->
+        <section class="content-section">
+            <h2>SVD Decomposition Explorer</h2>
+            <p>Singular Value Decomposition breaks down weight matrices to reveal important vs. idle directions.</p>
+
+            <div class="svd-explorer">
+                <div class="svd-visual">
+                    <canvas id="svdCanvas" width="600" height="400"></canvas>
+                </div>
+                <div class="svd-controls">
+                    <h3>Controls</h3>
+                    <label>
+                        Rank Cutoff: <span id="rankValue">1</span>
+                        <input type="range" id="rankSlider" min="1" max="3" value="1">
+                    </label>
+                    <div class="singular-values" id="singularValues"></div>
+                    <button id="regenerateSVD">Generate New Matrix</button>
+                </div>
+            </div>
+
+            <div class="code-example">
+                <h3>Code Example</h3>
+                <pre><code class="language-python">import numpy as np
+
+# Perform SVD decomposition
+U, S, Vt = np.linalg.svd(W)
+
+# Define high-rank (critical) subspace
+rank_cutoff = 1
+U_high = U[:, :rank_cutoff]
+V_high = Vt[:rank_cutoff, :].T
+
+# Project gradient to safe subspace
+grad_proj = grad - U_high @ (U_high.T @ grad @ V_high) @ V_high.T</code></pre>
+            </div>
+        </section>
+
+        <!-- Gradient Projection Demo -->
+        <section class="content-section bg-light">
+            <h2>Interactive Gradient Projection</h2>
+            <p>See how OSFT projects gradient updates away from critical directions.</p>
+
+            <div class="projection-demo">
+                <canvas id="projectionCanvas" width="600" height="500"></canvas>
+                <div class="projection-controls">
+                    <h3>Adjust Gradient</h3>
+                    <label>
+                        Gradient X: <span id="gradXValue">0.5</span>
+                        <input type="range" id="gradX" min="-2" max="2" step="0.1" value="0.5">
+                    </label>
+                    <label>
+                        Gradient Y: <span id="gradYValue">0.8</span>
+                        <input type="range" id="gradY" min="-2" max="2" step="0.1" value="0.8">
+                    </label>
+                    <div class="projection-info" id="projectionInfo"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OFT vs LoRA Comparison -->
+        <section id="comparison" class="content-section">
+            <h2>OFT vs LoRA: Parameter Efficiency</h2>
+
+            <div class="comparison-grid">
+                <div class="method-card">
+                    <h3>🔄 OFT</h3>
+                    <p>Orthogonal transformations preserve geometric structure</p>
+                    <ul>
+                        <li>Stable training</li>
+                        <li>Energy preservation</li>
+                        <li>Better for domain adaptation</li>
+                    </ul>
+                </div>
+                <div class="method-card">
+                    <h3>📊 LoRA</h3>
+                    <p>Low-rank decomposition for efficient updates</p>
+                    <ul>
+                        <li>Very parameter efficient</li>
+                        <li>Additive updates</li>
+                        <li>Popular for LLMs</li>
+                    </ul>
+                </div>
+                <div class="method-card">
+                    <h3>🎯 OSFT</h3>
+                    <p>Combines orthogonality with subspace protection</p>
+                    <ul>
+                        <li>Zero catastrophic forgetting</li>
+                        <li>Continual learning</li>
+                        <li>Multi-task scenarios</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="param-calculator">
+                <h3>Parameter Efficiency Calculator</h3>
+                <div class="calculator-inputs">
+                    <label>
+                        Input Features:
+                        <input type="number" id="inputFeatures" value="512" min="1">
+                    </label>
+                    <label>
+                        Output Features:
+                        <input type="number" id="outputFeatures" value="256" min="1">
+                    </label>
+                    <label>
+                        Rank:
+                        <input type="number" id="rank" value="16" min="1">
+                    </label>
+                </div>
+                <div class="calculator-results" id="calculatorResults"></div>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section class="content-section">
+            <h2>Real-World Applications</h2>
+
+            <div class="use-cases">
+                <div class="use-case">
+                    <div class="icon">🎯</div>
+                    <h3>Domain Adaptation</h3>
+                    <p>Fine-tune models to related domains without losing general knowledge</p>
+                    <span class="badge">OFT</span>
+                </div>
+
+                <div class="use-case">
+                    <div class="icon">🔬</div>
+                    <h3>Few-Shot Learning</h3>
+                    <p>Adapt with limited data while maintaining robustness</p>
+                    <span class="badge">OFT</span>
+                </div>
+
+                <div class="use-case">
+                    <div class="icon">📚</div>
+                    <h3>Continual Learning</h3>
+                    <p>Learn new tasks sequentially without forgetting previous ones</p>
+                    <span class="badge">OSFT</span>
+                </div>
+
+                <div class="use-case">
+                    <div class="icon">🤖</div>
+                    <h3>Enterprise Chatbots</h3>
+                    <p>Update with new information while preserving core capabilities</p>
+                    <span class="badge">OSFT</span>
+                </div>
+
+                <div class="use-case">
+                    <div class="icon">⚕️</div>
+                    <h3>Medical AI</h3>
+                    <p>Stay current with research without forgetting fundamentals</p>
+                    <span class="badge">OSFT</span>
+                </div>
+
+                <div class="use-case">
+                    <div class="icon">⚖️</div>
+                    <h3>Legal Models</h3>
+                    <p>Incorporate new regulations while maintaining legal knowledge</p>
+                    <span class="badge">OSFT</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Training Demo -->
+        <section id="visualizations" class="content-section bg-light">
+            <h2>Training Dynamics Comparison</h2>
+            <p>Compare how different fine-tuning methods affect model performance over time.</p>
+
+            <div class="training-viz">
+                <canvas id="trainingCanvas" width="800" height="400"></canvas>
+                <div class="training-controls">
+                    <button id="startTraining">Start Training Simulation</button>
+                    <button id="resetTraining">Reset</button>
+                    <div class="legend">
+                        <div><span class="legend-color oft"></span> OFT</div>
+                        <div><span class="legend-color lora"></span> LoRA</div>
+                        <div><span class="legend-color osft"></span> OSFT</div>
+                        <div><span class="legend-color full"></span> Full Fine-Tuning</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Takeaways -->
+        <section class="content-section">
+            <h2>Key Takeaways</h2>
+
+            <div class="takeaways">
+                <div class="takeaway">
+                    <h3>🔄 OFT Preserves Structure</h3>
+                    <p>Orthogonal transformations rotate the feature space without distortion, maintaining learned geometric relationships.</p>
+                </div>
+
+                <div class="takeaway">
+                    <h3>🎯 OSFT Protects Critical Knowledge</h3>
+                    <p>By identifying and avoiding critical directions, OSFT enables continual learning without catastrophic forgetting.</p>
+                </div>
+
+                <div class="takeaway">
+                    <h3>⚡ Parameter Efficiency</h3>
+                    <p>Both methods achieve 90%+ parameter reduction compared to full fine-tuning while maintaining or improving performance.</p>
+                </div>
+
+                <div class="takeaway">
+                    <h3>📈 Stable Training</h3>
+                    <p>Orthogonal constraints prevent gradient explosion/vanishing, leading to more reliable optimization.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources -->
+        <section class="content-section">
+            <h2>Learn More</h2>
+            <div class="resources">
+                <h3>Research Papers</h3>
+                <ul>
+                    <li><a href="#">Orthogonal Fine-Tuning (OFT) - Original Paper</a></li>
+                    <li><a href="#">OSFT: Orthogonal Subspace Fine-Tuning</a></li>
+                    <li><a href="#">Parameter-Efficient Fine-Tuning Methods Survey</a></li>
+                </ul>
+
+                <h3>Implementation</h3>
+                <ul>
+                    <li><a href="#">PyTorch OFT Implementation</a></li>
+                    <li><a href="#">Hugging Face PEFT Library</a></li>
+                    <li><a href="#">Example Notebooks</a></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Created by Frank La Vigne | Interactive Guide to Orthogonal Fine-Tuning</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
