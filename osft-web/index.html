@@ -47,23 +47,25 @@
 
         <!-- OFT Introduction -->
         <section id="oft" class="content-section">
-            <h2>What is Orthogonal Fine-Tuning (OFT)?</h2>
+            <h2>🚪 Through the Looking Glass: What is OFT?</h2>
             <div class="two-column">
                 <div>
-                    <p>OFT is a parameter-efficient fine-tuning technique that adapts pre-trained models by applying <strong>orthogonal transformations</strong> to weight matrices.</p>
+                    <p>Just as Alice stepped through the looking glass and found a world that was familiar yet rearranged, OFT adapts pre-trained models by <strong>rotating</strong> their learned representations rather than distorting them.</p>
 
-                    <h3>Key Properties of Orthogonal Matrices</h3>
+                    <p>OFT applies <strong>orthogonal transformations</strong> to weight matrices—think of it as spinning the looking glass to see your model's knowledge from a new perspective, without warping the reflection.</p>
+
+                    <h3>🔮 The Magic Mirror Properties</h3>
                     <ul>
-                        <li><strong>Preserves distances:</strong> ||Qx|| = ||x||</li>
-                        <li><strong>Preserves angles:</strong> Maintains geometric relationships</li>
-                        <li><strong>Identity when transposed:</strong> Q<sup>T</sup>Q = I</li>
-                        <li><strong>Represents rotations:</strong> Pure rotation without scaling</li>
+                        <li><strong>Preserves distances:</strong> Alice stays the same size (||Qx|| = ||x||)</li>
+                        <li><strong>Preserves angles:</strong> The Cheshire Cat's grin keeps its shape</li>
+                        <li><strong>Identity when transposed:</strong> The mirror reflects perfectly (Q<sup>T</sup>Q = I)</li>
+                        <li><strong>Represents rotations:</strong> Turn the mirror, don't bend it</li>
                     </ul>
 
                     <div class="formula-box">
-                        <h4>Core Formula</h4>
+                        <h4>🎭 The Looking Glass Formula</h4>
                         <code>W' = W × R</code>
-                        <p>Where R is an orthogonal matrix learned during fine-tuning</p>
+                        <p>Where R is the orthogonal mirror that rotates (not reshapes) your model's knowledge</p>
                     </div>
                 </div>
                 <div>
@@ -71,11 +73,12 @@
                         <canvas id="orthogonalCanvas" width="400" height="400"></canvas>
                         <div class="controls">
                             <label>
-                                Rotation Angle: <span id="angleValue">45°</span>
+                                🔄 Rotation Angle: <span id="angleValue">45°</span>
                                 <input type="range" id="rotationAngle" min="0" max="360" value="45">
                             </label>
-                            <button id="resetRotation">Reset</button>
+                            <button id="resetRotation">Reset Mirror</button>
                         </div>
+                        <p class="rabbit-hole-note" style="margin-top: 1rem;">🪞 <em>Watch how the points rotate together, like Wonderland itself spinning—everything moves, but relationships stay true.</em></p>
                     </div>
                 </div>
             </div>
@@ -83,22 +86,28 @@
 
         <!-- Orthogonal Matrix Verification -->
         <section class="content-section">
-            <h2>Interactive Orthogonal Matrix Explorer</h2>
+            <h2>🎴 The Queen's Matrix Garden</h2>
+            <p>In the Queen of Hearts' garden, every card has its place. An orthogonal matrix is like the Queen's decree—it can rearrange the cards (rotate them), but it must preserve their ranks and suits (mathematical properties).</p>
+
             <div class="matrix-explorer">
                 <div class="matrix-display">
-                    <h3>Matrix Q</h3>
+                    <h3>🌹 Matrix Q</h3>
                     <div id="matrixQ" class="matrix"></div>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">The Queen's arrangement</p>
                 </div>
                 <div class="matrix-display">
-                    <h3>Q<sup>T</sup> × Q</h3>
+                    <h3>👑 Q<sup>T</sup> × Q</h3>
                     <div id="matrixQTQ" class="matrix"></div>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">Should be the Identity (all ones on diagonal)</p>
                 </div>
                 <div class="matrix-display">
-                    <h3>Properties</h3>
+                    <h3>✨ Royal Properties</h3>
                     <div id="matrixProperties" class="properties"></div>
                 </div>
             </div>
-            <button id="generateMatrix">Generate New Orthogonal Matrix</button>
+            <button id="generateMatrix">🎲 Shuffle the Cards (Generate New Matrix)</button>
+
+            <p class="rabbit-hole-note" style="margin-top: 1.5rem;">♥️ <em>"Off with their heads!" cries the Queen—but an orthogonal matrix is merciful. It moves the cards without changing their essence. Q<sup>T</sup>Q always equals Identity, proving the transformation is pure rotation.</em></p>
         </section>
 
         <!-- Hyperspherical Energy -->
@@ -131,69 +140,81 @@
 
         <!-- OSFT Introduction -->
         <section id="osft" class="content-section">
-            <h2>Orthogonal Subspace Fine-Tuning (OSFT)</h2>
+            <h2>🗝️ The Deeper Rabbit Hole: OSFT</h2>
             <div class="osft-intro">
-                <p class="lead">OSFT takes OFT further by identifying and protecting <strong>critical directions</strong> in parameter space using SVD decomposition.</p>
+                <p class="lead">Remember when Alice found the tiny golden key? OSFT is like having a map showing which doors are vital to Wonderland's structure (critical subspaces) and which are just decoration (safe directions for updates).</p>
+
+                <p>OSFT takes OFT further by using <strong>SVD decomposition</strong>—think of it as the Caterpillar's magnifying glass that reveals which parts of the garden are essential and which can be replanted.</p>
 
                 <div class="problem-solution">
                     <div class="problem">
-                        <h3>❌ The Problem: Catastrophic Forgetting</h3>
-                        <p>Standard fine-tuning can destroy previously learned knowledge when adapting to new tasks.</p>
+                        <h3>🍄 The Problem: Eating the Wrong Mushroom</h3>
+                        <p>Standard fine-tuning is like Alice eating random mushrooms—she might grow taller (learn new tasks) but forget how to get back to normal size (catastrophic forgetting). The model loses what it knew while learning something new.</p>
                     </div>
                     <div class="solution">
-                        <h3>✓ The Solution: Subspace Projection</h3>
-                        <p>OSFT updates weights only in "safe" directions orthogonal to critical learned features.</p>
+                        <h3>🎯 The Solution: The Caterpillar's Wisdom</h3>
+                        <p>"One side makes you taller, the other makes you shorter." OSFT identifies safe directions (one side of the mushroom) where updates won't harm critical knowledge. We only eat from the safe side!</p>
                     </div>
                 </div>
+
+                <p class="rabbit-hole-note" style="margin-top: 1.5rem;">🐛 <em>"Who are YOU?" said the Caterpillar. OSFT answers: "I'm the same model, just viewing from a different angle—my core identity (critical subspace) intact."</em></p>
             </div>
         </section>
 
         <!-- SVD Visualization -->
         <section class="content-section">
-            <h2>SVD Decomposition Explorer</h2>
-            <p>Singular Value Decomposition breaks down weight matrices to reveal important vs. idle directions.</p>
+            <h2>🔍 The Cheshire Cat's Grin: SVD Decomposition</h2>
+            <p>"Well! I've often seen a cat without a grin," thought Alice, "but a grin without a cat! It's the most curious thing!"</p>
+
+            <p>SVD is like the Cheshire Cat revealing which parts of itself are essential (the grin—critical directions) and which can vanish (the body—safe for modification). It decomposes weight matrices to show us what must stay and what can change.</p>
 
             <div class="svd-explorer">
                 <div class="svd-visual">
                     <canvas id="svdCanvas" width="600" height="400"></canvas>
                 </div>
                 <div class="svd-controls">
-                    <h3>Controls</h3>
+                    <h3>😸 Cheshire Controls</h3>
                     <label>
-                        Rank Cutoff: <span id="rankValue">1</span>
+                        Rank Cutoff (What Stays Visible): <span id="rankValue">1</span>
                         <input type="range" id="rankSlider" min="1" max="3" value="1">
                     </label>
                     <div class="singular-values" id="singularValues"></div>
-                    <button id="regenerateSVD">Generate New Matrix</button>
+                    <button id="regenerateSVD">🎭 Fade and Reappear</button>
                 </div>
             </div>
 
+            <p class="rabbit-hole-note" style="margin-top: 1.5rem;">😺 <em>The larger the singular value (σ), the more "grin-like" it is—essential to the model's identity. Smaller values? Those parts can fade away without losing who the cat really is.</em></p>
+
             <div class="code-example">
-                <h3>Code Example</h3>
+                <h3>🧪 The White Rabbit's Recipe</h3>
                 <pre><code class="language-python">import numpy as np
 
-# Perform SVD decomposition
+# The Cheshire Cat reveals its structure
 U, S, Vt = np.linalg.svd(W)
 
-# Define high-rank (critical) subspace
+# Identify the grin (critical subspace)
 rank_cutoff = 1
-U_high = U[:, :rank_cutoff]
+U_high = U[:, :rank_cutoff]  # The essential smile
 V_high = Vt[:rank_cutoff, :].T
 
-# Project gradient to safe subspace
-grad_proj = grad - U_high @ (U_high.T @ grad @ V_high) @ V_high.T</code></pre>
+# Project gradient to where the body was (safe subspace)
+grad_proj = grad - U_high @ (U_high.T @ grad @ V_high) @ V_high.T
+# Now we update only the parts that can safely vanish!</code></pre>
             </div>
         </section>
 
         <!-- Gradient Projection Demo -->
         <section class="content-section bg-light">
-            <h2>Interactive Gradient Projection</h2>
-            <p>See how OSFT projects gradient updates away from critical directions.</p>
+            <h2>🧭 Finding Your Way: Gradient Projection</h2>
+            <p>"Would you tell me, please, which way I ought to go from here?" asked Alice.</p>
+            <p>"That depends a good deal on where you want to get to," said the Cat.</p>
+
+            <p>OSFT is like having the Cheshire Cat guide Alice's path. The <strong>critical direction</strong> (shown in red) is the path that must not be disturbed—it's the way back home. OSFT projects gradients to walk orthogonal to this path, exploring Wonderland without getting lost.</p>
 
             <div class="projection-demo">
                 <canvas id="projectionCanvas" width="600" height="500"></canvas>
                 <div class="projection-controls">
-                    <h3>Adjust Gradient</h3>
+                    <h3>🎯 Choose Alice's Direction</h3>
                     <label>
                         Gradient X: <span id="gradXValue">0.5</span>
                         <input type="range" id="gradX" min="-2" max="2" step="0.1" value="0.5">
@@ -205,6 +226,8 @@ grad_proj = grad - U_high @ (U_high.T @ grad @ V_high) @ V_high.T</code></pre>
                     <div class="projection-info" id="projectionInfo"></div>
                 </div>
             </div>
+
+            <p class="rabbit-hole-note" style="margin-top: 1.5rem;">🐱 <em>"We're all mad here," said the Cat. "But OSFT's madness has method—it steers clear of critical paths while still moving forward. The green arrow shows where we actually step, safely away from the red forbidden direction."</em></p>
         </section>
 
         <!-- OFT vs LoRA Comparison -->
@@ -332,55 +355,62 @@ grad_proj = grad - U_high @ (U_high.T @ grad @ V_high) @ V_high.T</code></pre>
 
         <!-- Key Takeaways -->
         <section class="content-section">
-            <h2>Key Takeaways</h2>
+            <h2>🎪 Lessons from Wonderland: Key Takeaways</h2>
 
             <div class="takeaways">
                 <div class="takeaway">
-                    <h3>🔄 OFT Preserves Structure</h3>
-                    <p>Orthogonal transformations rotate the feature space without distortion, maintaining learned geometric relationships.</p>
+                    <h3>🪞 The Looking Glass Principle (OFT)</h3>
+                    <p>Like spinning a mirror rather than cracking it, orthogonal transformations rotate the feature space without distortion. Alice stays Alice, just viewed from a new angle—geometric relationships preserved perfectly.</p>
                 </div>
 
                 <div class="takeaway">
-                    <h3>🎯 OSFT Protects Critical Knowledge</h3>
-                    <p>By identifying and avoiding critical directions, OSFT enables continual learning without catastrophic forgetting.</p>
+                    <h3>😸 The Cheshire Grin Strategy (OSFT)</h3>
+                    <p>Keep the grin (critical directions), let the body fade (safe subspace). OSFT identifies what's essential to your model's identity and protects it, enabling continual learning without losing who you are—no catastrophic forgetting!</p>
                 </div>
 
                 <div class="takeaway">
-                    <h3>⚡ Parameter Efficiency</h3>
-                    <p>Both methods achieve 90%+ parameter reduction compared to full fine-tuning while maintaining or improving performance.</p>
+                    <h3>🎩 The Mad Hatter's Efficiency</h3>
+                    <p>"Why is a raven like a writing desk?" Because both OFT and OSFT achieve 90%+ parameter reduction! Fewer parameters to tune, but the tea party keeps its charm. More efficient than full fine-tuning, just as effective.</p>
                 </div>
 
                 <div class="takeaway">
-                    <h3>📈 Stable Training</h3>
-                    <p>Orthogonal constraints prevent gradient explosion/vanishing, leading to more reliable optimization.</p>
+                    <h3>🌹 The Queen's Decree (Stability)</h3>
+                    <p>"All ways are MY ways!" Orthogonal constraints keep gradients well-behaved—no explosion, no vanishing. The Queen's rules (mathematical constraints) ensure orderly training. Off with gradient chaos!</p>
                 </div>
             </div>
+
+            <p class="rabbit-hole-note" style="margin-top: 2rem; text-align: center; font-size: 1.1rem;">🐇 <em>"Curiouser and curiouser!" cried Alice. And indeed—the deeper you go down this orthogonal rabbit hole, the more elegant the mathematics becomes.</em></p>
         </section>
 
         <!-- Resources -->
         <section class="content-section">
-            <h2>Learn More</h2>
+            <h2>📚 The White Rabbit's Library</h2>
+            <p>"Oh dear! Oh dear! I shall be too late!" The White Rabbit is always in a hurry to learn more. Here are the scrolls and tomes for your continued journey:</p>
+
             <div class="resources">
-                <h3>Research Papers</h3>
+                <h3>🔬 Research Scrolls (Papers)</h3>
                 <ul>
-                    <li><a href="https://arxiv.org/abs/2306.07280" target="_blank">Orthogonal Fine-Tuning (OFT) - Original Paper</a></li>
-                    <li><a href="#">OSFT: Orthogonal Subspace Fine-Tuning</a></li>
-                    <li><a href="#">Parameter-Efficient Fine-Tuning Methods Survey</a></li>
+                    <li><a href="https://arxiv.org/abs/2306.07280" target="_blank">📜 Orthogonal Fine-Tuning (OFT) - The Original Map</a></li>
+                    <li><a href="#">📜 OSFT: The Deeper Rabbit Hole Explained</a></li>
+                    <li><a href="#">📜 Parameter-Efficient Methods: A Wonderland Survey</a></li>
                 </ul>
 
-                <h3>Implementation</h3>
+                <h3>⚙️ The Tinker's Workshop (Implementation)</h3>
                 <ul>
-                    <li><a href="#">PyTorch OFT Implementation</a></li>
-                    <li><a href="#">Hugging Face PEFT Library</a></li>
-                    <li><a href="#">Example Notebooks</a></li>
+                    <li><a href="#">🔧 PyTorch OFT: Build Your Own Looking Glass</a></li>
+                    <li><a href="#">🔧 Hugging Face PEFT: The Queen's Toolkit</a></li>
+                    <li><a href="#">🔧 Example Notebooks: The Caterpillar's Recipes</a></li>
                 </ul>
             </div>
+
+            <p class="rabbit-hole-note" style="margin-top: 2rem;">📖 <em>"Begin at the beginning," the King said, very gravely, "and go on till you come to the end: then stop." But in Wonderland (and machine learning), every end is just a new beginning down another rabbit hole!</em></p>
         </section>
     </main>
 
     <footer>
         <div class="container">
-            <p>Created by Frank La Vigne | Interactive Guide to Orthogonal Fine-Tuning</p>
+            <p>🎩 Created by Frank La Vigne | Your Guide Through the Orthogonal Rabbit Hole</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">✨ "It's no use going back to yesterday, because I was a different person then." — But with OSFT, your model remembers who it was!</p>
         </div>
     </footer>
 
