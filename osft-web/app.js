@@ -167,32 +167,43 @@ function initMatrixExplorer() {
     if (!generateBtn) return;
 
     function displayMatrix() {
-        const Q = generateOrthogonalMatrix(4);
-        const QT = math.transpose(Q);
-        const QTQ = math.multiply(QT, Q);
-        const det = math.det(Q);
+        try {
+            const Q = generateOrthogonalMatrix(4);
+            const QT = math.transpose(Q);
+            const QTQ = math.multiply(QT, Q);
+            const det = math.det(Q);
 
-        // Display Q
-        const matrixQDiv = document.getElementById('matrixQ');
-        matrixQDiv.innerHTML = matrixToHTML(Q);
+            // Display Q
+            const matrixQDiv = document.getElementById('matrixQ');
+            if (matrixQDiv) {
+                matrixQDiv.innerHTML = matrixToHTML(Q);
+            }
 
-        // Display Q^T * Q
-        const matrixQTQDiv = document.getElementById('matrixQTQ');
-        matrixQTQDiv.innerHTML = matrixToHTML(QTQ);
+            // Display Q^T * Q
+            const matrixQTQDiv = document.getElementById('matrixQTQ');
+            if (matrixQTQDiv) {
+                matrixQTQDiv.innerHTML = matrixToHTML(QTQ);
+            }
 
-        // Display properties
-        const propsDiv = document.getElementById('matrixProperties');
-        const isOrthogonal = isIdentityMatrix(QTQ);
-        propsDiv.innerHTML = `
-            <p><strong>Determinant:</strong> ${det.toFixed(4)}</p>
-            <p><strong>Is Orthogonal:</strong> ${isOrthogonal ? '✓ Yes' : '✗ No'}</p>
-            <p><strong>Preserves Norm:</strong> ✓ Yes</p>
-            <p><strong>Preserves Angles:</strong> ✓ Yes</p>
-        `;
+            // Display properties
+            const propsDiv = document.getElementById('matrixProperties');
+            if (propsDiv) {
+                const isOrthogonal = isIdentityMatrix(QTQ);
+                propsDiv.innerHTML = `
+                    <p><strong>Determinant:</strong> ${det.toFixed(4)}</p>
+                    <p><strong>Is Orthogonal:</strong> ${isOrthogonal ? '✓ Yes' : '✗ No'}</p>
+                    <p><strong>Preserves Norm:</strong> ✓ Yes</p>
+                    <p><strong>Preserves Angles:</strong> ✓ Yes</p>
+                `;
+            }
+        } catch (error) {
+            console.error('Error generating matrix:', error);
+        }
     }
 
     function matrixToHTML(matrix) {
-        const arr = math.subset(matrix, math.index(math.range(0, 4), math.range(0, 4)));
+        // Convert matrix to array if it's a math.js matrix object
+        const arr = Array.isArray(matrix) ? matrix : matrix.toArray();
         let html = '<div class="matrix">';
         for (let i = 0; i < 4; i++) {
             html += '<div class="matrix-row">';
@@ -207,7 +218,8 @@ function initMatrixExplorer() {
     }
 
     function isIdentityMatrix(matrix, tolerance = 0.01) {
-        const arr = math.subset(matrix, math.index(math.range(0, 4), math.range(0, 4)));
+        // Convert matrix to array if it's a math.js matrix object
+        const arr = Array.isArray(matrix) ? matrix : matrix.toArray();
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 4; j++) {
                 const expected = i === j ? 1 : 0;
