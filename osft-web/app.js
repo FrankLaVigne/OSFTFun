@@ -257,12 +257,20 @@ function initEnergyVisualization() {
 
     // Apply different transformations
     const Q = generateOrthogonalMatrix(numFeatures);
-    const oftFeatures = originalFeatures.map(f => math.multiply(f, Q));
+    const QArray = Array.isArray(Q) ? Q : Q.toArray();
+    const oftFeatures = originalFeatures.map(f => {
+        const result = math.multiply(f, QArray);
+        return Array.isArray(result) ? result : result.toArray();
+    });
 
     const randomMatrix = math.random([numFeatures, numFeatures], -0.3, 0.3);
     const identity = math.identity(numFeatures);
     const nonOrthMatrix = math.add(randomMatrix, identity);
-    const randomFeatures = originalFeatures.map(f => math.multiply(f, nonOrthMatrix));
+    const nonOrthArray = Array.isArray(nonOrthMatrix) ? nonOrthMatrix : nonOrthMatrix.toArray();
+    const randomFeatures = originalFeatures.map(f => {
+        const result = math.multiply(f, nonOrthArray);
+        return Array.isArray(result) ? result : result.toArray();
+    });
 
     // Simple LoRA-style update
     const loraFeatures = originalFeatures.map(f => {
@@ -286,27 +294,29 @@ function initEnergyVisualization() {
 
     // Display stats
     const statsDiv = document.getElementById('energyStats');
-    statsDiv.innerHTML = `
-        <div class="energy-stat">
-            <h4>Original</h4>
-            <div class="value">${originalEnergy.toFixed(4)}</div>
-        </div>
-        <div class="energy-stat">
-            <h4>OFT (Orthogonal)</h4>
-            <div class="value">${oftEnergy.toFixed(4)}</div>
-            <div class="change good">Δ ${Math.abs(oftEnergy - originalEnergy).toFixed(4)}</div>
-        </div>
-        <div class="energy-stat">
-            <h4>Random Transform</h4>
-            <div class="value">${randomEnergy.toFixed(4)}</div>
-            <div class="change bad">Δ ${Math.abs(randomEnergy - originalEnergy).toFixed(4)}</div>
-        </div>
-        <div class="energy-stat">
-            <h4>LoRA Update</h4>
-            <div class="value">${loraEnergy.toFixed(4)}</div>
-            <div class="change">Δ ${Math.abs(loraEnergy - originalEnergy).toFixed(4)}</div>
-        </div>
-    `;
+    if (statsDiv) {
+        statsDiv.innerHTML = `
+            <div class="energy-stat">
+                <h4>Original</h4>
+                <div class="value">${originalEnergy.toFixed(4)}</div>
+            </div>
+            <div class="energy-stat">
+                <h4>OFT (Orthogonal)</h4>
+                <div class="value">${oftEnergy.toFixed(4)}</div>
+                <div class="change good">Δ ${Math.abs(oftEnergy - originalEnergy).toFixed(4)}</div>
+            </div>
+            <div class="energy-stat">
+                <h4>Random Transform</h4>
+                <div class="value">${randomEnergy.toFixed(4)}</div>
+                <div class="change bad">Δ ${Math.abs(randomEnergy - originalEnergy).toFixed(4)}</div>
+            </div>
+            <div class="energy-stat">
+                <h4>LoRA Update</h4>
+                <div class="value">${loraEnergy.toFixed(4)}</div>
+                <div class="change">Δ ${Math.abs(loraEnergy - originalEnergy).toFixed(4)}</div>
+            </div>
+        `;
+    }
 }
 
 function computeEnergy(features) {
