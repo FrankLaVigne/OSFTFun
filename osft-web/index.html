@@ -265,7 +265,10 @@ grad_proj = grad - U_high @ (U_high.T @ grad @ V_high) @ V_high.T
             </div>
 
             <div class="param-calculator">
-                <h3>Parameter Efficiency Calculator</h3>
+                <h3>🧮 The Caterpillar's Abacus: Parameter Efficiency Calculator</h3>
+
+                <p style="margin-bottom: 1.5rem;">"Who are YOU?" asks the Caterpillar. In fine-tuning, the answer depends on how many parameters you need. Let's see how small we can make the changes while keeping the same transformative power!</p>
+
                 <div class="calculator-inputs">
                     <label>
                         Input Features:
@@ -281,6 +284,17 @@ grad_proj = grad - U_high @ (U_high.T @ grad @ V_high) @ V_high.T
                     </label>
                 </div>
                 <div class="calculator-results" id="calculatorResults"></div>
+
+                <div class="explanation" style="margin-top: 1.5rem;">
+                    <h4>📏 Understanding the Numbers</h4>
+                    <p><strong>Full Fine-Tuning</strong> is like rewriting the entire book of Wonderland—every parameter (word) can change. For a layer with 512 inputs and 256 outputs, that's <strong>131,072 parameters</strong>!</p>
+
+                    <p><strong>OFT</strong> is like rotating the pages—you only need to specify the angle of rotation. With rank 16, that's just <strong>256 parameters</strong> (16 × 16), a 99.8% reduction! The Caterpillar would approve of such efficient transformation.</p>
+
+                    <p><strong>LoRA</strong> takes a different approach—it's like adding margin notes instead of rewriting. It needs <strong>rank × (input + output)</strong> parameters. Still efficient, but not quite as parsimonious as OFT's rotation.</p>
+
+                    <p class="rabbit-hole-note" style="margin-top: 1rem;">🐛 <em>"One side makes you larger, the other makes you smaller"—but with OFT, you can grow your model's capabilities while shrinking the parameter count. That's the magic of orthogonal transformations!</em></p>
+                </div>
             </div>
         </section>
 
