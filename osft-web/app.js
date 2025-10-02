@@ -395,32 +395,37 @@ function initSVDVisualization() {
     let svdResult;
 
     function generateAndDecompose() {
-        // Generate a 3x3 matrix
-        currentMatrix = [
-            [2.0, 0.5, 0.0],
-            [0.0, 1.5, 0.1],
-            [0.0, 0.0, 0.2]
-        ];
+        try {
+            // Generate a 3x3 matrix
+            currentMatrix = [
+                [2.0, 0.5, 0.0],
+                [0.0, 1.5, 0.1],
+                [0.0, 0.0, 0.2]
+            ];
 
-        // Add some randomness
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                currentMatrix[i][j] += (Math.random() - 0.5) * 0.5;
+            // Add some randomness
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    currentMatrix[i][j] += (Math.random() - 0.5) * 0.5;
+                }
             }
+
+            // Perform SVD
+            svdResult = math.svd(currentMatrix);
+
+            // Display singular values
+            displaySingularValues(1);
+            visualizeSVD(1);
+        } catch (error) {
+            console.error('SVD generation error:', error);
         }
-
-        // Perform SVD
-        svdResult = math.svd(currentMatrix);
-
-        // Display singular values
-        displaySingularValues(1);
-        visualizeSVD(1);
     }
 
     function displaySingularValues(rankCutoff) {
-        if (!svdResult) return;
+        if (!svdResult || !singularValuesDiv) return;
 
-        const singularValues = svdResult.s;
+        // Convert singular values to array if needed
+        const singularValues = Array.isArray(svdResult.s) ? svdResult.s : (svdResult.s.toArray ? svdResult.s.toArray() : [svdResult.s]);
         let html = '<h4>Singular Values</h4>';
 
         singularValues.forEach((s, i) => {
@@ -439,15 +444,20 @@ function initSVDVisualization() {
     }
 
     function visualizeSVD(rankCutoff) {
+        if (!svdResult) return;
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // Convert singular values to array if needed
+        const singularValues = Array.isArray(svdResult.s) ? svdResult.s : (svdResult.s.toArray ? svdResult.s.toArray() : [svdResult.s]);
+
         const padding = 50;
-        const barWidth = (canvas.width - 2 * padding) / svdResult.s.length;
-        const maxS = Math.max(...svdResult.s);
+        const barWidth = (canvas.width - 2 * padding) / singularValues.length;
+        const maxS = Math.max(...singularValues);
         const chartHeight = canvas.height - 2 * padding;
 
         // Draw bars for singular values
-        svdResult.s.forEach((s, i) => {
+        singularValues.forEach((s, i) => {
             const barHeight = (s / maxS) * chartHeight;
             const x = padding + i * barWidth;
             const y = canvas.height - padding - barHeight;
