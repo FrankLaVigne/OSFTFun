@@ -1,6 +1,6 @@
-# OSFTFun
+# 🐇 Down the Orthogonal Rabbit Hole
 
-## 🐇 Down the Orthogonal Rabbit Hole
+## Exploring Orthogonnal SubSpaces in Fine-Tuning AI Models
 
 Welcome to the rabbit hole of **Orthogonal Subspace Fine-Tuning (OSFT)**—where we explore how to teach AI models new tricks without making them forget the old ones.
 
@@ -57,3 +57,4 @@ So take the plunge. Follow the white rabbit. Let's see how deep this orthogonal 
 
 *"Begin at the beginning, and go on till you come to the end: then stop."*
 — Lewis Carroll (but also good advice for gradient descent)
+
